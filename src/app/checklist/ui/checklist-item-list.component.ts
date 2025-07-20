@@ -17,6 +17,9 @@ import {ChecklistItem, RemoveChecklistItem} from '../../shared/interfaces/checkl
             <div>
               <button (click)="toggle.emit(item.id)">Toggle</button>
             </div>
+            <div>
+              <button (click)="remove.emit(item.id)">Remove</button>
+            </div>
           </li>
         } @empty {
           <div>
@@ -31,4 +34,5 @@ import {ChecklistItem, RemoveChecklistItem} from '../../shared/interfaces/checkl
 export class ChecklistItemListComponent {
   checklistItems = input.required<ChecklistItem[]>();
   toggle = output<RemoveChecklistItem>();
+  remove = output<RemoveChecklistItem>();
 }

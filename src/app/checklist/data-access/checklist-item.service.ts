@@ -30,12 +30,13 @@ export class ChecklistItemService {
   checklistItems = computed(() => this.state().checklistItems);
   loaded = computed(() => this.state().loaded);
 
-
   // sources
   add$ = new Subject<AddChecklistItem>();
   toggle$ = new Subject<RemoveChecklistItem>();
   reset$ = new Subject<RemoveChecklist>();
   checklistItemsLoaded$ = this.storageService.loadChecklistItems();
+  remove$ = new Subject<RemoveChecklistItem>();
+  edit$ = new Subject<EditChecklistItem>();
 
   constructor() {
     // effects
@@ -91,5 +92,21 @@ export class ChecklistItemService {
       error: (err) =>
         this.state.update((state) => ({...state, error: err}))
     });
+
+    this.edit$.pipe(takeUntilDestroyed()).subscribe((update) =>
+      this.state.update((state) => ({
+        ...state,
+        checklistItems: state.checklistItems.map((item) =>
+          item.id === update.id ? { ...item, title: update.data.title } : item
+        ),
+      }))
+    );
+
+    this.remove$.pipe(takeUntilDestroyed()).subscribe((checklistItemId) => (
+      this.state.update((state) => ({
+        ...state,
+        checklistItems: state.checklistItems.filter((item) => item.id !== checklistItemId)
+      }))
+    ))
   }
 }
