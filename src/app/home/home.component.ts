@@ -11,32 +11,32 @@ import {ChecklistListComponent} from './ui/checklist-list.component';
   template: `
     <header>
       <h1>Quicklists</h1>
-      <app-checklist-list
-        [checklists]="checklistService.checklists()"
-        (delete)="checklistService.remove$.next($event)"
-        (edit)="checklistBeingEdited.set($event)"
-      />
-      <button (click)="checklistBeingEdited.set({})">Add Checklist</button>
-      <app-modal [isOpen]="!!checklistBeingEdited()">
-        <ng-template>
-          <app-form-modal
-            [title]="
+    </header>
+    <app-checklist-list
+      [checklists]="checklistService.checklists()"
+      (delete)="checklistService.remove$.next($event)"
+      (edit)="checklistBeingEdited.set($event)"
+    />
+    <button (click)="checklistBeingEdited.set({})">Add Checklist</button>
+    <app-modal [isOpen]="!!checklistBeingEdited()">
+      <ng-template>
+        <app-form-modal
+          [title]="
             checklistBeingEdited()?.title
               ? checklistBeingEdited()!.title!
               : 'Add Checklist'
           "
-            [formGroup]="checklistForm"
-            (save)="checklistBeingEdited()?.id
+          [formGroup]="checklistForm"
+          (save)="checklistBeingEdited()?.id
                   ? checklistService.edit$.next({
                       id: checklistBeingEdited()!.id!,
                       data: checklistForm.getRawValue()
                     })
                   : checklistService.add$.next(checklistForm.getRawValue())"
-            (close)="checklistBeingEdited.set(null)"
-          />
-        </ng-template>
-      </app-modal>
-    </header>
+          (close)="checklistBeingEdited.set(null)"
+        />
+      </ng-template>
+    </app-modal>
   `,
   imports: [
     ModalComponent,

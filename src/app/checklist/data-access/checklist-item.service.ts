@@ -29,15 +29,15 @@ export class ChecklistItemService {
   // selectors
   checklistItems = computed(() => this.state().checklistItems);
   loaded = computed(() => this.state().loaded);
-  checklistRemoved$ = new Subject<RemoveChecklist>();
 
   // sources
   add$ = new Subject<AddChecklistItem>();
+  edit$ = new Subject<EditChecklistItem>();
+  remove$ = new Subject<RemoveChecklistItem>();
   toggle$ = new Subject<RemoveChecklistItem>();
   reset$ = new Subject<RemoveChecklist>();
+  checklistRemoved$ = new Subject<RemoveChecklist>();
   checklistItemsLoaded$ = this.storageService.loadChecklistItems();
-  remove$ = new Subject<RemoveChecklistItem>();
-  edit$ = new Subject<EditChecklistItem>();
 
   constructor() {
     // effects
