@@ -13,7 +13,7 @@ import {ChecklistItemListComponent} from './ui/checklist-item-list.component';
 @Component({
   selector: 'app-checklist',
   template: `
-    @if (checklist(); as checklist){
+    @if (checklist(); as checklist) {
       <app-checklist-header
         [checklist]="checklist"
         (addItem)="checklistItemBeingEdited.set({})"

@@ -29,6 +29,7 @@ export class ChecklistItemService {
   // selectors
   checklistItems = computed(() => this.state().checklistItems);
   loaded = computed(() => this.state().loaded);
+  checklistRemoved$ = new Subject<RemoveChecklist>();
 
   // sources
   add$ = new Subject<AddChecklistItem>();
@@ -108,5 +109,14 @@ export class ChecklistItemService {
         checklistItems: state.checklistItems.filter((item) => item.id !== checklistItemId)
       }))
     ))
+
+    this.checklistRemoved$.pipe(takeUntilDestroyed()).subscribe((checklistId) =>
+      this.state.update((state) => ({
+        ...state,
+        checklistItems: state.checklistItems.filter(
+          (item) => item.checklistId !== checklistId
+        ),
+      }))
+    );
   }
 }
